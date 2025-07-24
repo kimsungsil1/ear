@@ -2,133 +2,152 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>요정귀 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>요정귀 심리테스트</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #d9efff, #fce3ff);
-      color: #333;
-      padding: 20px;
+      font-family: 'Pretendard', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #fff0f5, #dbeaff);
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 700px;
+    .page {
+      display: none;
+      padding: 40px 20px;
+      max-width: 600px;
       margin: auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
+    .active {
+      display: block;
     }
     h1 {
-      text-align: center;
       font-size: 2em;
-      margin-bottom: 20px;
-      color: #7a3db8;
+      color: #6a4fa3;
     }
     .question {
-      margin: 20px 0;
+      margin: 30px 0;
+      font-size: 1.2em;
     }
-    button {
-      margin-top: 20px;
+    .btn {
+      background: #a96ff7;
+      color: #fff;
       padding: 10px 20px;
-      background-color: #b083f5;
-      color: white;
       border: none;
       border-radius: 10px;
-      cursor: pointer;
       font-size: 1em;
-      transition: all 0.3s ease;
+      cursor: pointer;
+      margin: 20px auto;
+      display: inline-block;
     }
-    button:hover {
-      background-color: #7a3db8;
+    .btn:hover {
+      background: #7d4bc4;
     }
     .result {
-      margin-top: 30px;
-      font-size: 1.3em;
-      text-align: center;
-      font-weight: bold;
-      color: #5c2d91;
+      font-size: 1.5em;
+      margin-top: 40px;
+      color: #553285;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧚 요정귀 테스트 🧝‍♀️</h1>
+  <div id="startPage" class="page active">
+    <h1>✨ 요정귀 심리테스트 ✨</h1>
+    <p>나는 과연 요정귀를 해야 될 운명의 사람일까?<br/>10문제만에 알아보자!</p>
+    <button class="btn" onclick="nextPage()">시작하기</button>
+  </div>
+
+  <div id="quizPage" class="page">
     <form id="quizForm">
-      <div class="question">
-        1. 거울을 볼 때 얼굴이 너무 평범하다고 느낀 적이 있나요?<br/>
-        <input type="radio" name="q1" value="1"> 예
-        <input type="radio" name="q1" value="0"> 아니오
-      </div>
-      <div class="question">
-        2. 귀에 포인트를 주는 스타일을 좋아하나요?<br/>
-        <input type="radio" name="q2" value="1"> 예
-        <input type="radio" name="q2" value="0"> 아니오
-      </div>
-      <!-- 동일한 형식으로 q3 ~ q10까지 작성 -->
-      <div class="question">
-        3. 연예인처럼 눈에 띄고 싶다고 느낀 적이 있나요?<br/>
-        <input type="radio" name="q3" value="1"> 예
-        <input type="radio" name="q3" value="0"> 아니오
-      </div>
-      <div class="question">
-        4. 머리를 자주 올려 묶거나 귀가 드러나는 헤어스타일을 하나요?<br/>
-        <input type="radio" name="q4" value="1"> 예
-        <input type="radio" name="q4" value="0"> 아니오
-      </div>
-      <div class="question">
-        5. 코스프레나 판타지 세계관을 좋아하나요?<br/>
-        <input type="radio" name="q5" value="1"> 예
-        <input type="radio" name="q5" value="0"> 아니오
-      </div>
-      <div class="question">
-        6. 실루엣만 봐도 남들과 다른 느낌을 주고 싶나요?<br/>
-        <input type="radio" name="q6" value="1"> 예
-        <input type="radio" name="q6" value="0"> 아니오
-      </div>
-      <div class="question">
-        7. 사진을 찍을 때 귀 쪽이 밋밋하다고 느낀 적이 있나요?<br/>
-        <input type="radio" name="q7" value="1"> 예
-        <input type="radio" name="q7" value="0"> 아니오
-      </div>
-      <div class="question">
-        8. 독특한 악세사리를 자주 착용하나요?<br/>
-        <input type="radio" name="q8" value="1"> 예
-        <input type="radio" name="q8" value="0"> 아니오
-      </div>
-      <div class="question">
-        9. 성형에 대해 긍정적인 생각을 가지고 있나요?<br/>
-        <input type="radio" name="q9" value="1"> 예
-        <input type="radio" name="q9" value="0"> 아니오
-      </div>
-      <div class="question">
-        10. 귀가 조금만 올라가도 얼굴형이 예뻐보인다고 느끼나요?<br/>
-        <input type="radio" name="q10" value="1"> 예
-        <input type="radio" name="q10" value="0"> 아니오
-      </div>
-      <button type="button" onclick="calculateResult()">결과 보기</button>
+      <div id="questionContainer"></div>
+      <button type="button" class="btn" onclick="nextQuestion()">다음</button>
     </form>
+  </div>
+
+  <div id="resultPage" class="page">
+    <h1>✨ 테스트 결과 ✨</h1>
     <div class="result" id="resultText"></div>
+    <p>결과 공유하기:</p>
+    <button class="btn" onclick="shareResult()">카카오톡 공유</button>
+    <br/><br/>
+    <button class="btn" onclick="restart()">다시하기</button>
   </div>
 
   <script>
-    function calculateResult() {
-      let total = 0;
-      for (let i = 1; i <= 10; i++) {
-        const value = document.querySelector(`input[name="q${i}"]:checked`);
-        if (value) {
-          total += parseInt(value.value);
-        }
-      }
+    const questions = [
+      "거울을 볼 때 얼굴이 너무 평범하다고 느낀 적이 있다.",
+      "귀에 포인트를 주는 스타일을 좋아한다.",
+      "연예인처럼 눈에 띄고 싶다고 느낀 적이 있다.",
+      "머리를 자주 올려 묶거나 귀가 드러나는 헤어스타일을 한다.",
+      "코스프레나 판타지 세계관을 좋아한다.",
+      "실루엣만 봐도 남들과 다른 느낌을 주고 싶다.",
+      "사진을 찍을 때 귀 쪽이 밋밋하다고 느낀 적이 있다.",
+      "독특한 악세사리를 자주 착용한다.",
+      "성형에 대해 긍정적인 생각을 가지고 있다.",
+      "귀가 조금만 올라가도 얼굴형이 예뻐보인다고 느낀 적이 있다."
+    ];
 
-      const resultText = document.getElementById("resultText");
-      if (total <= 3) {
-        resultText.innerText = "❌ 요정귀, 굳이 안 해도 돼요!";
-      } else if (total <= 6) {
-        resultText.innerText = "🤔 고민은 해볼 수 있어요!";
+    let current = 0;
+    let score = 0;
+
+    function nextPage() {
+      document.getElementById("startPage").classList.remove("active");
+      document.getElementById("quizPage").classList.add("active");
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const container = document.getElementById("questionContainer");
+      container.innerHTML = `
+        <div class="question">
+          ${current + 1}. ${questions[current]}
+        </div>
+        <label><input type="radio" name="q${current}" value="1"> 예</label><br/>
+        <label><input type="radio" name="q${current}" value="0"> 아니오</label>
+      `;
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector(`input[name="q${current}"]:checked`);
+      if (!selected) return alert("답변을 선택해주세요!");
+      score += parseInt(selected.value);
+      current++;
+      if (current < questions.length) {
+        showQuestion();
       } else {
-        resultText.innerText = "✅ 요정귀는 당신의 운명입니다!";
+        showResult();
       }
+    }
+
+    function showResult() {
+      document.getElementById("quizPage").classList.remove("active");
+      document.getElementById("resultPage").classList.add("active");
+      let result = "";
+      if (score <= 3) {
+        result = "❌ 요정귀, 굳이 안 해도 돼요! 개성은 마음에서부터 시작되죠.";
+      } else if (score <= 6) {
+        result = "❓ 고민은 해볼 수 있어요! 당신 안의 요정이 깨어날지도?";
+      } else {
+        result = "✅ 요정귀는 당신의 운명입니다! 오늘부터 판타지 주인공 모드!";
+      }
+      document.getElementById("resultText").innerText = result;
+    }
+
+    function restart() {
+      current = 0;
+      score = 0;
+      document.getElementById("resultPage").classList.remove("active");
+      document.getElementById("startPage").classList.add("active");
+    }
+
+    function shareResult() {
+      alert("공유 기능은 추후 연결됩니다. 현재는 캡처 후 SNS에 올려주세요!");
     }
   </script>
 </body>
