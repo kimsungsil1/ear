@@ -1,154 +1,95 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>요정귀 심리테스트</title>
+  <meta charset="UTF-8">
+  <title>요정귀 AI 분석기</title>
   <style>
     body {
+      background: #fdf6ff;
       font-family: 'Pretendard', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #fff0f5, #dbeaff);
-      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px;
     }
-    .page {
-      display: none;
-      padding: 40px 20px;
-      max-width: 600px;
-      margin: auto;
-      text-align: center;
-      animation: fadeIn 0.6s ease;
-    }
-    .active {
-      display: block;
-    }
+
     h1 {
+      color: #d96eff;
       font-size: 2em;
-      color: #6a4fa3;
     }
-    .question {
-      margin: 30px 0;
-      font-size: 1.2em;
+
+    #photo-preview {
+      margin-top: 20px;
+      max-width: 300px;
+      max-height: 400px;
+      border: 3px dashed #ccc;
+      padding: 10px;
+      background: #fff;
     }
-    .btn {
-      background: #a96ff7;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1em;
-      cursor: pointer;
-      margin: 20px auto;
-      display: inline-block;
+
+    .scan-bar {
+      width: 100%;
+      height: 4px;
+      background-color: red;
+      animation: scan 2.5s linear forwards;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
-    .btn:hover {
-      background: #7d4bc4;
+
+    @keyframes scan {
+      0% { top: 0; }
+      50% { top: calc(100% - 4px); }
+      100% { top: 0; }
     }
-    .result {
+
+    #result {
+      margin-top: 30px;
       font-size: 1.5em;
-      margin-top: 40px;
-      color: #553285;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      font-weight: bold;
+      color: #444;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div id="startPage" class="page active">
-    <h1>✨ 요정귀 심리테스트 ✨</h1>
-    <p>나는 과연 요정귀를 해야 될 운명의 사람일까?<br/>10문제만에 알아보자!</p>
-    <button class="btn" onclick="nextPage()">시작하기</button>
+
+  <h1>요정귀 분석기</h1>
+  <input type="file" id="upload" accept="image/*"><br>
+
+  <div id="photo-container" style="position: relative; margin-top: 20px;">
+    <img id="photo-preview" src="" alt="">
+    <div class="scan-bar" id="scan-bar" style="display: none;"></div>
   </div>
 
-  <div id="quizPage" class="page">
-    <form id="quizForm">
-      <div id="questionContainer"></div>
-      <button type="button" class="btn" onclick="nextQuestion()">다음</button>
-    </form>
-  </div>
-
-  <div id="resultPage" class="page">
-    <h1>✨ 테스트 결과 ✨</h1>
-    <div class="result" id="resultText"></div>
-    <p>결과 공유하기:</p>
-    <button class="btn" onclick="shareResult()">카카오톡 공유</button>
-    <br/><br/>
-    <button class="btn" onclick="restart()">다시하기</button>
-  </div>
+  <div id="result">당신은 요정귀가 안 어울립니다.</div>
 
   <script>
-    const questions = [
-      "거울을 볼 때 얼굴이 너무 평범하다고 느낀 적이 있다.",
-      "귀에 포인트를 주는 스타일을 좋아한다.",
-      "연예인처럼 눈에 띄고 싶다고 느낀 적이 있다.",
-      "머리를 자주 올려 묶거나 귀가 드러나는 헤어스타일을 한다.",
-      "코스프레나 판타지 세계관을 좋아한다.",
-      "실루엣만 봐도 남들과 다른 느낌을 주고 싶다.",
-      "사진을 찍을 때 귀 쪽이 밋밋하다고 느낀 적이 있다.",
-      "독특한 악세사리를 자주 착용한다.",
-      "성형에 대해 긍정적인 생각을 가지고 있다.",
-      "귀가 조금만 올라가도 얼굴형이 예뻐보인다고 느낀 적이 있다."
-    ];
+    const upload = document.getElementById('upload');
+    const preview = document.getElementById('photo-preview');
+    const scanBar = document.getElementById('scan-bar');
+    const result = document.getElementById('result');
 
-    let current = 0;
-    let score = 0;
+    upload.addEventListener('change', () => {
+      const file = upload.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          scanBar.style.display = 'block';
+          result.style.display = 'none';
 
-    function nextPage() {
-      document.getElementById("startPage").classList.remove("active");
-      document.getElementById("quizPage").classList.add("active");
-      showQuestion();
-    }
-
-    function showQuestion() {
-      const container = document.getElementById("questionContainer");
-      container.innerHTML = `
-        <div class="question">
-          ${current + 1}. ${questions[current]}
-        </div>
-        <label><input type="radio" name="q${current}" value="1"> 예</label><br/>
-        <label><input type="radio" name="q${current}" value="0"> 아니오</label>
-      `;
-    }
-
-    function nextQuestion() {
-      const selected = document.querySelector(`input[name="q${current}"]:checked`);
-      if (!selected) return alert("답변을 선택해주세요!");
-      score += parseInt(selected.value);
-      current++;
-      if (current < questions.length) {
-        showQuestion();
-      } else {
-        showResult();
+          // 분석 타이밍
+          setTimeout(() => {
+            scanBar.style.display = 'none';
+            result.style.display = 'block';
+          }, 3000); // 3초 후 결과 표시
+        };
+        reader.readAsDataURL(file);
       }
-    }
-
-    function showResult() {
-      document.getElementById("quizPage").classList.remove("active");
-      document.getElementById("resultPage").classList.add("active");
-      let result = "";
-      if (score <= 3) {
-        result = "❌ 요정귀, 굳이 안 해도 돼요! 개성은 마음에서부터 시작되죠.";
-      } else if (score <= 6) {
-        result = "❓ 고민은 해볼 수 있어요! 당신 안의 요정이 깨어날지도?";
-      } else {
-        result = "✅ 요정귀는 당신의 운명입니다! 오늘부터 판타지 주인공 모드!";
-      }
-      document.getElementById("resultText").innerText = result;
-    }
-
-    function restart() {
-      current = 0;
-      score = 0;
-      document.getElementById("resultPage").classList.remove("active");
-      document.getElementById("startPage").classList.add("active");
-    }
-
-    function shareResult() {
-      alert("공유 기능은 추후 연결됩니다. 현재는 캡처 후 SNS에 올려주세요!");
-    }
+    });
   </script>
+
 </body>
 </html>
